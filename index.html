@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Train Schedule</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/4.1.1/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.js" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+    <header id="homeContainer">
+        <div id="inner">
+            <img id="logo" src="assets/images/bell-512.png">
+            <a href="index.html" id="reload">
+                <h1>Travel by Train</h1>
+                <p>Metro Denver Transportation Scheduler</p>
+            </a>
+            <a href="#container" class="btn btn-info" id="btn" role="button">View Schedule</a>
+            <a href="#container" class="btn btn-info" id="btn" role="button">Add Train</a>
+            <button type="button" class="btn btn-primary" id="btn" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Contact</button>
+            <button type="button" class="btn btn-primary" id="btn" data-toggle="modal" data-target="#Modal">
+                Destinations
+            </button>
+        </div>
+        
+        <div id="illustration">
+            <img id="logoImg" src="assets/images/finaldribble1.gif">
+        </div>
+    </header>
+
+    <div class="container" id="container">
+        <!-- Train Schedule Panel -->
+        <div class="panel panel-default">
+            <div class="panel-heading panel-custom">
+                Current Train Schedule
+            </div>
+            <table class="table table-hover">
+                <tr>
+                    <th scope="col">Train Name</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Frequency (min)</th>
+                    <th scrope="col">Minutes Away</th>
+                    <th scope="col">Next Arrival</th>
+                </tr>
+                <tbody id="table-data"></tbody>
+            </table>
+            <hr>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="form-group">
+                      <label for="recipient-name" class="col-form-label">Recipient:</label>
+                      <input type="text" class="form-control" placeholder="trainHQ@gmail.com" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                      <label for="message-text" class="col-form-label">Message:</label>
+                      <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel"></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                   Sorry, this page is down for maintenance.
+                   <br>
+                   It'll be back shortly.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- Add Train Panel -->
+        <div class="panel panel-default" id="addTrain">
+            <div class="panel-heading panel-custom">
+                Add Train
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                        <label for="trainName">Train Name:</label>
+                        <input type="text" class="form-control" id="train-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination">Destination:</label>
+                        <input type="text" class="form-control" id="train-destination" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="startYear">First Train Time: (military time) </label>
+                        <input type="text" class="form-control" placeholder="HH:MM" id="train-time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="endYear">Frequency (minutes)</label>
+                        <input type="text" class="form-control" placeholder="" id="time-freq">
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" id="btn-add" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span>
+                            Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <footer id="footer">
+            <hr>
+            <span class="text-center">
+            <p id="copyright" class="text-muted">Featured images are the property of their respective owners.</p></span>
+   
+    </footer>
+    <script src="assets/javascript/app.js"></script>
+</body>
+
+</html>
